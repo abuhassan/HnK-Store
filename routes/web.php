@@ -18,6 +18,9 @@ Route::get('/', 'App\Http\Controllers\MainController@index')
 
 Route::resource('products', 'App\Http\Controllers\ProductController');
 
+Route::resource('products.carts', 'App\Http\Controllers\ProductCartController')
+    ->only(['store', 'destroy']);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
