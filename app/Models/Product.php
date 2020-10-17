@@ -5,14 +5,14 @@ namespace App\Models;
 use App\Models\Cart;
 use App\Models\Image;
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -38,5 +38,10 @@ class Product extends Model
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', 'available');
     }
 }
