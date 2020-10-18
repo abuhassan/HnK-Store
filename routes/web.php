@@ -18,6 +18,9 @@ Route::get('/', 'App\Http\Controllers\MainController@index')
 
 Route::resource('products', 'App\Http\Controllers\ProductController');
 
+Route::resource('carts', 'App\Http\Controllers\CartController')
+    ->only(['index']);
+
 Route::resource('products.carts', 'App\Http\Controllers\ProductCartController')
     ->only(['store', 'destroy']);
 
