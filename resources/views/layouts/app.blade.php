@@ -33,13 +33,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('products.index') }}">Products</a>
-                        </li>
+                        @if (optional(auth()->user())->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('panel') }}">
+                                    Panel
+                                </a>
+                            </li>
+                        @endif
                         @inject('cartService', 'App\Services\CartService')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('carts.index') }}">
-                                Cart ({{ $cartService->countProducts() }})</a>
+                                Cart ({{ $cartService->countProducts() }})
+                            </a>
                         </li>
                     </ul>
 
@@ -58,7 +63,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -68,7 +73,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 </div>
@@ -99,7 +104,6 @@
 
                 @yield('content')
             </div>
-
         </main>
     </div>
 </body>
