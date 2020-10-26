@@ -13,25 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', 'App\Http\Controllers\MainController@index')
-    ->name('main');
+Route::get('/', 'MainController@index')->name('main');
 
-Route::resource('products', 'App\Http\Controllers\ProductController');
+Route::resource('carts', 'CartController')->only(['index']);
 
-Route::resource('carts', 'App\Http\Controllers\CartController')
-    ->only(['index']);
+Route::resource('orders', 'OrderController')->only(['create', 'store']);
 
-Route::resource('orders', 'App\Http\Controllers\OrderController')
-    ->only(['create', 'store']);
+Route::resource('products.carts', 'ProductCartController')->only(['store', 'destroy']);
 
-Route::resource('products.carts', 'App\Http\Controllers\ProductCartController')
-    ->only(['store', 'destroy']);
-
-Route::resource('orders.payments', 'App\Http\Controllers\OrderPaymentController')
-    ->only(['create', 'store']);
+Route::resource('orders.payments', 'OrderPaymentController')->only(['create', 'store']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-//added for Git
+Route::get('/home', 'HomeController@index')->name('home');

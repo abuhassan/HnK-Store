@@ -1,29 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-use function PHPUnit\Framework\returnSelf;
 
 class ProductController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-       $products = Product::all();
+        $products = Product::all();
 
         return view('products.index')->with([
             'products' => $products,
@@ -37,18 +24,16 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-       $product = Product::create($request->validated);
+        $product = Product::create($request->validated());
 
-       return redirect()
-        ->route('products.index')
-        ->withSuccess("New product with id {$product->id} was created");
-
+        return redirect()
+            ->route('products.index')
+            ->withSuccess("New product with id {$product->id} was created");
+        // ->with(['success' => "New product with id {$product->id} was created"]);
     }
 
     public function show(Product $product)
     {
-        //$product = Product::findOrFail($product);
-
         return view('products.show')->with([
             'product' => $product,
         ]);
@@ -57,7 +42,7 @@ class ProductController extends Controller
     public function edit($product)
     {
         return view('products.edit')->with([
-            'product'=> Product::findOrFail($product),
+            'product' => Product::findOrFail($product),
         ]);
     }
 
@@ -72,12 +57,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        //$product = Product::findOrFail($product);
-
         $product->delete();
 
         return redirect()
-        ->route('products.index')
-        ->withSuccess("The product with id {$product->id} was removed");
+            ->route('products.index')
+            ->withSuccess("The product with id {$product->id} was removed");
     }
 }
